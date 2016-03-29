@@ -26,6 +26,7 @@
             android:layout_gravity="center_vertical"
             android:background="#bbbbbb"/>
         <LinearLayout
+            android:id="@+id/linear_layout_news_feed"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -33,6 +34,7 @@
             android:background="#33ffffff"
             >
             <View
+                android:id="@+id/view_news_feed"
                 android:layout_width="58dp"
                 android:layout_height="58dp"
 
@@ -61,12 +63,14 @@
             android:layout_gravity="center_vertical"
             android:background="#bbbbbb"/>
         <LinearLayout
+            android:id="@+id/linear_layout_new_post"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
             >
             <View
+                android:id="@+id/view_new_post"
                 android:layout_width="58dp"
                 android:layout_height="58dp"
 
