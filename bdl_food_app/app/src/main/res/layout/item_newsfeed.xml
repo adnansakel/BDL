@@ -10,6 +10,7 @@
         android:orientation="vertical"
         android:gravity="center_vertical">
         <TextView
+            android:id="@+id/textViewDishName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
@@ -17,12 +18,14 @@
             android:text="Dish name: xyz"/>
 
         <TextView
+            android:id="@+id/textViewLocation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
             android:layout_marginLeft="5dp"
             android:text="Location: Kista"/>
         <TextView
+            android:id="@+id/textViewOrderBefore"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
@@ -31,6 +34,7 @@
             android:text="Order before:15.00, 22/6/2016"
             />
         <TextView
+            android:id="@+id/textViewPostMessage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
@@ -48,6 +52,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
             <TextView
+                android:id="@+id/textViewDishLeft"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:textSize="20sp"
@@ -56,10 +61,12 @@
                 android:gravity="center"
                 android:text="5 left"/>
             <ImageView
+                android:id="@+id/imageViewDishImage"
                 android:layout_width="95dp"
                 android:layout_height="95dp"
-                android:background="@drawable/food_sample"/>
+                android:background="@drawable/foodbackground"/>
             <TextView
+                android:id="@+id/textViewDishPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:textSize="20sp"

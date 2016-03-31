@@ -10,8 +10,11 @@ import android.widget.EditText;
 
 import com.example.adnansakel.bdl_food_app.DataModel.AppConstants;
 import com.firebase.client.AuthData;
+import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
+import com.firebase.client.Query;
+import com.firebase.client.ValueEventListener;
 
 /**
  * Created by Adnan Sakel on 3/29/2016.
@@ -52,6 +55,23 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 
         context = getApplicationContext();
 
+        /*Firebase ref = new Firebase("https://android-chat.firebaseio-demo.com/chat");
+        Query queryRef = ref.orderByChild("author").equalTo("JavaUser6564");
+        queryRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                // do some stuff once
+                System.out.println("Query result:" + snapshot);
+                int i = 1;
+                for( DataSnapshot sn : snapshot.getChildren()){
+                    System.out.println("Query result "+(i++)+ " :" + sn.getKey());
+                }
+            }
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+            }
+        });*/
+
 
     }
 
@@ -64,6 +84,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                 @Override
                 public void onAuthenticated(AuthData authData) {
                     //System.out.println("User ID: " + authData.getUid() + ", Provider: " + authData.getProvider());
+                    AppConstants.UserID = authData.getUid();
                     startActivity(new Intent(LoginActivity.this,NewsFeedActivity.class));
                     LoginActivity.this.finish();
 

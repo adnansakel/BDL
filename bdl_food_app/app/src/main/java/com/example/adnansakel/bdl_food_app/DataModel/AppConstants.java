@@ -6,5 +6,6 @@ package com.example.adnansakel.bdl_food_app.DataModel;
 public class AppConstants {
 
     public static String FirebaseUri = "https://bdlfoodapp.firebaseio.com/";
-    public static String posts = "posts";
+    public static String Posts = "Posts";
+    public static String UserID = "";//will be stored in apppreference later on;
 }
