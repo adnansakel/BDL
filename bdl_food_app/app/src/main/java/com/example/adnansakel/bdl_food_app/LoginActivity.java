@@ -1,6 +1,7 @@
 package com.example.adnansakel.bdl_food_app;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -33,6 +34,8 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     Context context;
 
     Firebase loginref;
+
+    ProgressDialog progress;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +57,8 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         loginref = new Firebase(AppConstants.FirebaseUri);
 
         context = getApplicationContext();
+
+
 
         /*Firebase ref = new Firebase("https://android-chat.firebaseio-demo.com/chat");
         Query queryRef = ref.orderByChild("author").equalTo("JavaUser6564");
@@ -80,12 +85,17 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         if(v == button_sign_in){
             email = editText_email.getText().toString();
             password = editText_password.getText().toString();
+            progress = ProgressDialog.show(this, null,
+                    null, true);
+            progress.setContentView(R.layout.progressdialogview);
+            progress.setCancelable(true);
             loginref.authWithPassword(email, password, new Firebase.AuthResultHandler() {
                 @Override
                 public void onAuthenticated(AuthData authData) {
                     //System.out.println("User ID: " + authData.getUid() + ", Provider: " + authData.getProvider());
                     AppConstants.UserID = authData.getUid();
-                    startActivity(new Intent(LoginActivity.this,NewsFeedActivity.class));
+                    progress.dismiss();
+                    startActivity(new Intent(LoginActivity.this, NewsFeedActivity.class));
                     LoginActivity.this.finish();
 
                 }

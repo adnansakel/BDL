@@ -1,6 +1,7 @@
 package com.example.adnansakel.bdl_food_app;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -33,6 +34,8 @@ public class NewsFeedActivity extends Activity implements View.OnClickListener {
 
     NewsFeedListAdapter newsfeedlistadapter;
 
+    ProgressDialog progress;
+
     //private List<NewsFeedData> newsFeedDataList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +63,11 @@ public class NewsFeedActivity extends Activity implements View.OnClickListener {
         newsfeedlistadapter = new NewsFeedListAdapter(this);
         lvNewsFeed.setAdapter(newsfeedlistadapter);
 
+        progress = ProgressDialog.show(this, null,
+                null, true);
+        progress.setContentView(R.layout.progressdialogview);
+        progress.setCancelable(true);
+
         loadNewsFeed();
     }
 
@@ -67,6 +75,8 @@ public class NewsFeedActivity extends Activity implements View.OnClickListener {
         //newsFeedDataList = new ArrayList<NewsFeedData>();
         Firebase.setAndroidContext(this);
         Firebase newsfeedRef = new Firebase("https://bdlfoodapp.firebaseio.com/Posts");
+
+        progress.show();
 
         Query queryRef = newsfeedRef.orderByKey().limitToLast(20);
 
@@ -81,9 +91,10 @@ public class NewsFeedActivity extends Activity implements View.OnClickListener {
                 nfd.setLocation(dataSnapshot.child("Location").getValue().toString());
                 nfd.setNumberofDishes(dataSnapshot.child("NumberofDishes").getValue().toString());
                 nfd.setOrderBefore(dataSnapshot.child("OrderBefore").getValue().toString());
-                nfd.setPrice("50 SEK");//for the time being some dummy price
+                nfd.setPrice("50");//for the time being some dummy price
                 nfd.setPostMessage(dataSnapshot.child("PostMessage").getValue().toString());
                 newsfeedlistadapter.addItem(nfd);
+                progress.dismiss();
                    // System.out.println("Posts :"+post.getKey()+"\n"+post.getValue().toString());
 
                // }
