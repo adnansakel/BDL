@@ -8,6 +8,6 @@ public class Util {
     public  static  final String sand_box_id="APP-80W284485P519543T";
     public  static  final String paypal_liv_id="APP-8FY34789LF769731J";
 
-    public  static  final String paypal_sdk_id="AVMFSQSl2JOHs_gS-U_uknPC01q3l_6kXUvNWJ6vjtEH8ukOdhiKcVCKx9llbs4blb63yfeQaJ28-ebp";
+    public  static  final String paypal_sdk_id="ASD_UA5yg0eXOBAAtJTZXl4Lipt1SJK9df6wzln49FZQpz5R_fUUXIeE4vsvcQVXupRTwqxUzTXvSdww";
 
 }

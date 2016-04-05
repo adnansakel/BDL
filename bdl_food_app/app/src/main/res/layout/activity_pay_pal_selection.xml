@@ -14,8 +14,11 @@
         android:id="@+id/button_paypal_sdk"
         android:background="@drawable/paypal_logo"
         android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="81dp" />
+        android:layout_marginTop="96dp"
+        android:layout_alignParentEnd="true"
+        android:contextClickable="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:clickable="true" />
 
 </RelativeLayout>

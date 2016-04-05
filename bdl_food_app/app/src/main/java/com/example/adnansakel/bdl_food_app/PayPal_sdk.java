@@ -30,7 +30,7 @@ public class PayPal_sdk extends ActionBarActivity {
             .environment(PayPalConfiguration.ENVIRONMENT_SANDBOX).clientId(
                     Util.paypal_sdk_id);*/
     private static PayPalConfiguration paypalConfig=new PayPalConfiguration()
-    .environment(PayPalConfiguration.ENVIRONMENT_SANDBOX)
+    .environment(PayPalConfiguration.ENVIRONMENT_PRODUCTION)
     .clientId( Util.paypal_sdk_id)
     .acceptCreditCards(true)
     // The following are only used in PayPalFuturePaymentActivity.
