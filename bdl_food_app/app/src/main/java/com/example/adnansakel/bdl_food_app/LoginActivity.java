@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -36,6 +37,9 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     Firebase loginref;
 
     ProgressDialog progress;
+
+    SharedPreferences userPref;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,22 +47,23 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         initializeComponent();
     }
 
-    private void initializeComponent(){
-        button_sign_in = (Button)findViewById(R.id.button_sign_in);
-        button_sign_up = (Button)findViewById(R.id.button_sign_up);
+    private void initializeComponent() {
+        button_sign_in = (Button) findViewById(R.id.button_sign_in);
+        button_sign_up = (Button) findViewById(R.id.button_sign_up);
 
-        editText_email = (EditText)findViewById(R.id.edit_text_email);
-        editText_password = (EditText)findViewById(R.id.edit_text_password);
+        editText_email = (EditText) findViewById(R.id.edit_text_email);
+        editText_password = (EditText) findViewById(R.id.edit_text_password);
 
         button_sign_in.setOnClickListener(this);
         button_sign_up.setOnClickListener(this);
+
+        userPref = getSharedPreferences(AppConstants.USER_INFO, Context.MODE_PRIVATE);
+        this.getSavedUserInfo();
 
         Firebase.setAndroidContext(this);
         loginref = new Firebase(AppConstants.FirebaseUri);
 
         context = getApplicationContext();
-
-
 
         /*Firebase ref = new Firebase("https://android-chat.firebaseio-demo.com/chat");
         Query queryRef = ref.orderByChild("author").equalTo("JavaUser6564");
@@ -78,6 +83,29 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         });*/
 
 
+    }
+
+
+    private void saveUserInfo() {
+        SharedPreferences.Editor editUsrInfo = userPref.edit();
+        editUsrInfo.putString(AppConstants.USER_EMAIL, email);
+        editUsrInfo.putString(AppConstants.USER_PASSWORD, password);
+        editUsrInfo.apply();
+    }
+    private void getSavedUserInfo() {
+        String user_email = userPref.getString(AppConstants.USER_EMAIL, AppConstants.DEFAULT_NULL);
+        String user_password = userPref.getString(AppConstants.USER_PASSWORD, AppConstants.DEFAULT_NULL);
+        if( (!user_email.equals(AppConstants.DEFAULT_NULL)) && (!user_password.equals(AppConstants.DEFAULT_NULL)) )
+        {
+            editText_email.setText(user_email);
+            editText_password.setText(user_password);
+        }
+    }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        this.saveUserInfo();
     }
 
     @Override
