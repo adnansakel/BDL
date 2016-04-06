@@ -44,7 +44,11 @@ public class NewsFeedActivity extends Activity implements View.OnClickListener {
         initializeComponent();
 
     }
-
+    public void sendMessage(View view)
+    {
+        Intent intent = new Intent(NewsFeedActivity.this, PayPal_selection.class);
+        startActivity(intent);
+    }
     private void initializeComponent(){
         llNewsFeed = (LinearLayout)findViewById(R.id.linear_layout_news_feed);
         llNewPost = (LinearLayout)findViewById(R.id.linear_layout_new_post);
