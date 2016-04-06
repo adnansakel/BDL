@@ -141,6 +141,13 @@
                 android:layout_marginTop="5dp"
                 android:background="#55ffffff">
 
+
+                <View
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_marginRight="15dp"
+                    android:background="@drawable/price"/>
+
                 <View
                     android:layout_width="60dp"
                     android:layout_height="60dp"
@@ -156,6 +163,7 @@
                     android:layout_height="60dp"
 
                     android:background="@drawable/camera_black"/>
+
 
 
             </LinearLayout>
