@@ -22,11 +22,14 @@ import java.util.Map;
  */
 public class NewPostActivity extends Activity implements View.OnClickListener {
 
+    LinearLayout llSettings;
+    View viewSettings;
     LinearLayout llNewsFeed;
-    LinearLayout llNewPost;
-
-    View viewNewPost;
     View viewNewsFeed;
+    LinearLayout llCart;
+    View viewCart;
+    LinearLayout llNewPost;
+    View viewNewPost;
 
     Button buttonPost;
 
@@ -53,9 +56,28 @@ public class NewPostActivity extends Activity implements View.OnClickListener {
 
         llNewsFeed = (LinearLayout)findViewById(R.id.linear_layout_news_feed);
         llNewPost = (LinearLayout)findViewById(R.id.linear_layout_new_post);
+        llSettings = (LinearLayout)findViewById(R.id.linear_layout_settings);
+        llCart = (LinearLayout)findViewById(R.id.linear_layout_cart);
 
+        viewCart = (View)findViewById(R.id.view_cart);
         viewNewsFeed = (View)findViewById(R.id.view_news_feed);
         viewNewPost = (View)findViewById(R.id.view_new_post);
+        viewSettings = (View)findViewById(R.id.view_settings);
+
+        llNewPost.setBackgroundColor(Color.parseColor("#33ffffff"));
+        viewNewPost.setBackgroundResource(R.drawable.add_new_white);
+
+        llNewsFeed.setBackgroundColor(Color.parseColor("#00ffffff"));
+        viewNewsFeed.setBackgroundResource(R.drawable.home_black);
+
+        llCart.setBackgroundColor(Color.parseColor("#00ffffff"));
+        viewCart.setBackgroundResource(R.drawable.cart_black);
+
+        llSettings.setBackgroundColor(Color.parseColor("#00ffffff"));
+        viewSettings.setBackgroundResource(R.drawable.settingsblack);
+
+        llNewsFeed.setOnClickListener(this);
+        llSettings.setOnClickListener(this);
 
         buttonPost = (Button)findViewById(R.id.button_post);
 
@@ -68,13 +90,6 @@ public class NewPostActivity extends Activity implements View.OnClickListener {
         radioButtonBuy = (RadioButton)findViewById(R.id.radioButton_Buy);
         radioButtonSell = (RadioButton)findViewById(R.id.radioButton_Sell);
 
-        llNewPost.setBackgroundColor(Color.parseColor("#33ffffff"));
-        viewNewPost.setBackgroundResource(R.drawable.add_new_white);
-
-        llNewsFeed.setBackgroundColor(Color.parseColor("#00ffffff"));
-        viewNewsFeed.setBackgroundResource(R.drawable.home_black);
-
-        llNewsFeed.setOnClickListener(this);
         buttonPost.setOnClickListener(this);
 
         radioButtonBuy.setOnClickListener(this);
@@ -90,6 +105,11 @@ public class NewPostActivity extends Activity implements View.OnClickListener {
     public void onClick(View v) {
         if(v == llNewsFeed){
             startActivity(new Intent(NewPostActivity.this, NewsFeedActivity.class));
+            this.finish();
+        }
+        else if( v == llSettings )
+        {
+            startActivity(new Intent(NewPostActivity.this, SettingsMenuActivity.class));
             this.finish();
         }
         else if( v == buttonPost){

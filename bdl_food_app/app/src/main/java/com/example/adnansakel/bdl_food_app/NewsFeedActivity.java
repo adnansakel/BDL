@@ -29,6 +29,7 @@ public class NewsFeedActivity extends Activity implements View.OnClickListener {
     View viewNewsFeed;
     LinearLayout llNewPost;
     View viewNewPost;
+    LinearLayout llSettingsMenu;
 
     ListView lvNewsFeed;
 
@@ -52,6 +53,7 @@ public class NewsFeedActivity extends Activity implements View.OnClickListener {
     private void initializeComponent(){
         llNewsFeed = (LinearLayout)findViewById(R.id.linear_layout_news_feed);
         llNewPost = (LinearLayout)findViewById(R.id.linear_layout_new_post);
+        llSettingsMenu = (LinearLayout)findViewById(R.id.linear_layout_settings);
         viewNewsFeed = (View)findViewById(R.id.view_news_feed);
         viewNewPost = (View)findViewById(R.id.view_new_post);
         lvNewsFeed = (ListView)findViewById(R.id.lvNewsfeed);
@@ -62,7 +64,7 @@ public class NewsFeedActivity extends Activity implements View.OnClickListener {
         llNewsFeed.setBackgroundColor(Color.parseColor("#33ffffff"));
         viewNewsFeed.setBackgroundResource(R.drawable.home_white);
 
-
+        llSettingsMenu.setOnClickListener(this);
         llNewPost.setOnClickListener(this);
         newsfeedlistadapter = new NewsFeedListAdapter(this);
         lvNewsFeed.setAdapter(newsfeedlistadapter);
@@ -134,5 +136,11 @@ public class NewsFeedActivity extends Activity implements View.OnClickListener {
             startActivity(new Intent(NewsFeedActivity.this, NewPostActivity.class));
             this.finish();
         }
+        else if (v == llSettingsMenu)
+        {
+            startActivity(new Intent(NewsFeedActivity.this, SettingsMenuActivity.class));
+            this.finish();
+        }
+
     }
 }
