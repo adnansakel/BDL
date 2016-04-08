@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.adnansakel.bdl_food_app.DataModel.AppConstants;
 import com.firebase.client.AuthData;
@@ -17,6 +18,9 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.Query;
 import com.firebase.client.ValueEventListener;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Adnan Sakel on 3/29/2016.
@@ -122,20 +126,74 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                 public void onAuthenticated(AuthData authData) {
                     //System.out.println("User ID: " + authData.getUid() + ", Provider: " + authData.getProvider());
                     AppConstants.UserID = authData.getUid();
-                    progress.dismiss();
-                    startActivity(new Intent(LoginActivity.this, NewsFeedActivity.class));
-                    LoginActivity.this.finish();
+                    Query ifUserAlreadyExist = new Firebase(AppConstants.FirebaseUri + "/" + AppConstants.USERS).orderByChild("UserID").equalTo(AppConstants.UserID);
+                    ifUserAlreadyExist.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            //System.out.println(dataSnapshot.toString());
+                            if (dataSnapshot.getValue() == null) {
+                                Map<String, Object> user = new HashMap<String, Object>();
+                                user.put("UserID", AppConstants.UserID);
+                                user.put("Posts", "");
+                                user.put(AppConstants.ORDER_TO,"");//creating some empty tag will be used later on
+                                user.put(AppConstants.ORDER_FROM,"");
+                                new Firebase(AppConstants.FirebaseUri + "/" + AppConstants.USERS).push().setValue(user, new Firebase.CompletionListener() {
 
+                                    @Override
+                                    public void onComplete(FirebaseError firebaseError, Firebase firebase) {
+                                        if(firebaseError != null){
+                                            progress.dismiss();
+                                            Toast.makeText(LoginActivity.this, "Some error occured while logging in", Toast.LENGTH_LONG);
+                                        }
+                                        else{
+                                            AppConstants.FirebaseUserkey = firebase.getKey().toString();
+                                            System.out.println(AppConstants.FirebaseUserkey);
+                                            progress.dismiss();
+                                            startActivity(new Intent(LoginActivity.this, NewsFeedActivity.class));
+                                            LoginActivity.this.finish();
+
+                                        }
+                                    }
+                                });
+
+                            }
+                            else{
+                                //AppConstants.FirebaseUserkey = ((DataSnapshot)dataSnapshot.getValue()).getKey().toString();
+                                for(DataSnapshot ds:dataSnapshot.getChildren()){
+
+                                    AppConstants.FirebaseUserkey = ds.getKey().toString();
+
+                                }
+
+                                progress.dismiss();
+                                startActivity(new Intent(LoginActivity.this, NewsFeedActivity.class));
+                                LoginActivity.this.finish();
+
+                            }
+
+                        }
+
+                        @Override
+                        public void onCancelled(FirebaseError firebaseError) {
+                            progress.dismiss();
+                        }
+                    });
+
+
+                    }
+
+                    @Override
+                    public void onAuthenticationError (FirebaseError firebaseError){
+                        // there was an error
+                        progress.dismiss();
+                        Toast.makeText(LoginActivity.this, "Some error occured while logging in", Toast.LENGTH_LONG);
+                    }
                 }
 
-                @Override
-                public void onAuthenticationError(FirebaseError firebaseError) {
-                    // there was an error
-                }
-            });
-        }
-        if(v == button_sign_up){
-            startActivity(new Intent(LoginActivity.this, SignUpActivity.class));
+                );
+            }
+            if(v == button_sign_up){
+                startActivity(new Intent(LoginActivity.this, SignUpActivity.class));
 
         }
     }

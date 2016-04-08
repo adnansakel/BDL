@@ -1,9 +1,11 @@
 package com.example.adnansakel.bdl_food_app.DataModel;
 
+import java.io.Serializable;
+
 /**
  * Created by Adnan Sakel on 3/30/2016.
  */
-public class NewsFeedData {
+public class NewsFeedData implements Serializable{
 
     private String DishName;
     private String Location;
@@ -11,7 +13,10 @@ public class NewsFeedData {
     private String Price;
     private String NumberofDishes;
     private String PostMessage;
-
+    private String Ingredients;
+    private String PostKey;
+    private String PostOwner_UserID;
+    private String PostOwner_FirebaseKey;
 
     public NewsFeedData(){
 
@@ -59,4 +64,36 @@ public class NewsFeedData {
     public void setPostMessage(String postMessage){ PostMessage = postMessage;}
 
     public String getPostMessage(){return  PostMessage;}
+
+    public String getIngredients() {
+        return Ingredients;
+    }
+
+    public void setIngredients(String ingredients) {
+        Ingredients = ingredients;
+    }
+
+    public String getPostKey() {
+        return PostKey;
+    }
+
+    public void setPostKey(String postKey) {
+        PostKey = postKey;
+    }
+
+    public String getPostOwner_UserID() {
+        return PostOwner_UserID;
+    }
+
+    public void setPostOwner_UserID(String userID) {
+        PostOwner_UserID = userID;
+    }
+
+    public String getPostOwner_FirebaseKey() {
+        return PostOwner_FirebaseKey;
+    }
+
+    public void setPostOwner_FirebaseKey(String postOwner_FirebaseKey) {
+        PostOwner_FirebaseKey = postOwner_FirebaseKey;
+    }
 }

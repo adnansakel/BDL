@@ -57,7 +57,7 @@
 
                 android:background="@drawable/cart_black"
                 android:clickable="true"
-                android:onClick="sendMessage" />
+                 />
         </LinearLayout>
         <View
             android:layout_width="1.5dp"

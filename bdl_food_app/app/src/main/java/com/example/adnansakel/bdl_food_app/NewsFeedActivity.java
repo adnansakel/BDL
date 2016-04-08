@@ -6,10 +6,12 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.example.adnansakel.bdl_food_app.Adapters.NewsFeedListAdapter;
+import com.example.adnansakel.bdl_food_app.DataModel.AppConstants;
 import com.example.adnansakel.bdl_food_app.DataModel.NewsFeedData;
 import com.example.adnansakel.bdl_food_app.DataModel.PostData;
 import com.firebase.client.ChildEventListener;
@@ -24,7 +26,7 @@ import java.util.List;
 /**
  * Created by Adnan Sakel on 3/29/2016.
  */
-public class NewsFeedActivity extends Activity implements View.OnClickListener {
+public class NewsFeedActivity extends Activity implements View.OnClickListener, AdapterView.OnItemClickListener {
     LinearLayout llNewsFeed;
     View viewNewsFeed;
     LinearLayout llNewPost;
@@ -66,6 +68,7 @@ public class NewsFeedActivity extends Activity implements View.OnClickListener {
         llNewPost.setOnClickListener(this);
         newsfeedlistadapter = new NewsFeedListAdapter(this);
         lvNewsFeed.setAdapter(newsfeedlistadapter);
+        lvNewsFeed.setOnItemClickListener(this);
 
         progress = ProgressDialog.show(this, null,
                 null, true);
@@ -73,6 +76,7 @@ public class NewsFeedActivity extends Activity implements View.OnClickListener {
         progress.setCancelable(true);
 
         loadNewsFeed();
+
     }
 
     private void loadNewsFeed(){
@@ -82,11 +86,12 @@ public class NewsFeedActivity extends Activity implements View.OnClickListener {
 
         progress.show();
 
-        Query queryRef = newsfeedRef.orderByKey().limitToLast(20);
+        Query queryRef = newsfeedRef.orderByKey().limitToLast(50);
 
         queryRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                System.out.println("Hello");
                 System.out.println(dataSnapshot.toString());
                 //for(DataSnapshot post : dataSnapshot.getChildren()){
                     NewsFeedData nfd = new NewsFeedData();
@@ -97,8 +102,13 @@ public class NewsFeedActivity extends Activity implements View.OnClickListener {
                 nfd.setOrderBefore(dataSnapshot.child("OrderBefore").getValue().toString());
                 nfd.setPrice("50");//for the time being some dummy price
                 nfd.setPostMessage(dataSnapshot.child("PostMessage").getValue().toString());
+                nfd.setIngredients(dataSnapshot.child("Ingredients").getValue().toString());
+                nfd.setPostKey(dataSnapshot.getKey().toString());
+                nfd.setPostOwner_UserID(dataSnapshot.child("UserID").getValue().toString());
+                nfd.setPostOwner_FirebaseKey(dataSnapshot.child("FirebaseUserKey").getValue().toString());
                 newsfeedlistadapter.addItem(nfd);
                 progress.dismiss();
+                System.out.println(dataSnapshot.getKey().toString());
                    // System.out.println("Posts :"+post.getKey()+"\n"+post.getValue().toString());
 
                // }
@@ -108,22 +118,23 @@ public class NewsFeedActivity extends Activity implements View.OnClickListener {
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
+                    System.out.println("Came here 1");
             }
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-
+                System.out.println("Came here 2");
             }
 
             @Override
             public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
+                System.out.println("Came here 3");
             }
 
             @Override
             public void onCancelled(FirebaseError firebaseError) {
-
+                System.out.println("Came here 4");
+                progress.dismiss();
             }
         });
     }
@@ -134,5 +145,12 @@ public class NewsFeedActivity extends Activity implements View.OnClickListener {
             startActivity(new Intent(NewsFeedActivity.this, NewPostActivity.class));
             this.finish();
         }
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        NewsFeedData newsFeedData = new NewsFeedData();
+        newsFeedData = (NewsFeedData)newsfeedlistadapter.getItem(position);
+        startActivity(new Intent(NewsFeedActivity.this,PostDetailsActivity.class).putExtra(AppConstants.POST_DETAILS,newsFeedData));
     }
 }

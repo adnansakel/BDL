@@ -1,6 +1,7 @@
 package com.example.adnansakel.bdl_food_app;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.Toast;
 
 import com.example.adnansakel.bdl_food_app.DataModel.AppConstants;
 import com.firebase.client.Firebase;
@@ -38,6 +40,10 @@ public class NewPostActivity extends Activity implements View.OnClickListener {
 
     RadioButton radioButtonBuy;
     RadioButton radioButtonSell;
+
+    ProgressDialog progress;
+
+    Map<String,Object> post;
 
     Firebase postRef;
 
@@ -80,9 +86,11 @@ public class NewPostActivity extends Activity implements View.OnClickListener {
         radioButtonBuy.setOnClickListener(this);
         radioButtonSell.setOnClickListener(this);
 
+        post = new HashMap<String,Object>();
+
         Firebase.setAndroidContext(this);
 
-        postRef = new Firebase(AppConstants.FirebaseUri+"/"+AppConstants.Posts);
+        postRef = new Firebase(AppConstants.FirebaseUri+"/"+AppConstants.POSTS);
 
     }
 
@@ -94,27 +102,54 @@ public class NewPostActivity extends Activity implements View.OnClickListener {
         }
         else if( v == buttonPost){
 
-            Map<String,Object> post = new HashMap<String,Object>();
-            post.put("UseID",AppConstants.UserID);
+            final Map<String,Object> post = new HashMap<String,Object>();
+            post.put(AppConstants.USER_ID,AppConstants.UserID);
+            post.put("FirebaseUserKey",AppConstants.FirebaseUserkey);
             post.put("Location","Kista");//some dummy data for the time being
-            post.put("OrderBefore","15.00 22-06-2016");//some dummy data for the time being
+            post.put("OrderBefore","15.00 22-06-2016");//time should be saved as a number yyyymmddhhmm
             post.put("DishName",editTextDishName.getText().toString());
             post.put("Category",editTextCategory.getText().toString());
             post.put("Ingredients",editTextIngredients.getText().toString());
-            post.put("ImageUrl","http://somedummyurl/dummyimage");//some dummy data for the time being
+            post.put("Image","http://somedummyurl/dummyimage");//image data should be saved in firebase
             post.put("NumberofDishes",editTextNumberofDishes.getText().toString());
             post.put("PostMessage",editTextPostMessage.getText().toString());
             post.put("BuyorSell",BuyorSell);
+            post.put("Price","50");
+            post.put(AppConstants.ORDER_FROM,"");
 
+            progress = ProgressDialog.show(this, null,
+                    null, true);
+            progress.setContentView(R.layout.progressdialogview);
+            progress.setCancelable(true);
             postRef.push().setValue(post,new Firebase.CompletionListener() {
                 @Override
                 public void onComplete(FirebaseError firebaseError, Firebase firebase) {
                     if (firebaseError != null) {
                         //System.out.println("Data could not be saved. " + firebaseError.getMessage());
-                        startActivity(new Intent(NewPostActivity.this,NewsFeedActivity.class));
-                        NewPostActivity.this.finish();
+                        progress.dismiss();
+                        Toast.makeText(NewPostActivity.this, "Some error occured while posting", Toast.LENGTH_LONG);
                     } else {
-                        System.out.println("Data saved successfully.");
+                        //System.out.println("Data saved successfully.");
+                        post.put("PostKey", firebase.getKey().toString());
+                        new Firebase(AppConstants.FirebaseUri+"/"+AppConstants.USERS+"/"+AppConstants.FirebaseUserkey+"/"+AppConstants.POSTS)
+                                .push().setValue(post, new Firebase.CompletionListener() {
+                            @Override
+                            public void onComplete(FirebaseError firebaseError, Firebase firebase) {
+                                if (firebaseError != null) {
+                                    //error occured
+                                    progress.dismiss();
+
+
+                                } else {
+                                    //success
+                                    progress.dismiss();
+                                    startActivity(new Intent(NewPostActivity.this, NewsFeedActivity.class));
+                                    NewPostActivity.this.finish();
+                                }
+                            }
+                        });
+
+
                     }
                 }
             });
