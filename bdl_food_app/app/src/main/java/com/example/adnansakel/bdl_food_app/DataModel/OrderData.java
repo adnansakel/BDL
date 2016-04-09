@@ -12,6 +12,7 @@ public class OrderData {
     private String Price;
     private String DishName;
     private String BuyorSell;
+
     public OrderData(){
 
     }

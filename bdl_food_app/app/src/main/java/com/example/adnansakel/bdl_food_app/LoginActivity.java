@@ -150,6 +150,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                                             System.out.println(AppConstants.FirebaseUserkey);
                                             progress.dismiss();
                                             startActivity(new Intent(LoginActivity.this, NewsFeedActivity.class));
+                                            //startActivity(new Intent(LoginActivity.this, OrderListActivity.class));
                                             LoginActivity.this.finish();
 
                                         }
@@ -167,6 +168,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 
                                 progress.dismiss();
                                 startActivity(new Intent(LoginActivity.this, NewsFeedActivity.class));
+                                //startActivity(new Intent(LoginActivity.this, OrderListActivity.class));
                                 LoginActivity.this.finish();
 
                             }

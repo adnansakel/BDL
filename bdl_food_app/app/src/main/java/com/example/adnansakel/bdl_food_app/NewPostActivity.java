@@ -26,9 +26,11 @@ public class NewPostActivity extends Activity implements View.OnClickListener {
 
     LinearLayout llNewsFeed;
     LinearLayout llNewPost;
+    LinearLayout llOrders;
 
     View viewNewPost;
     View viewNewsFeed;
+    View viewOrders;
 
     Button buttonPost;
 
@@ -59,9 +61,11 @@ public class NewPostActivity extends Activity implements View.OnClickListener {
 
         llNewsFeed = (LinearLayout)findViewById(R.id.linear_layout_news_feed);
         llNewPost = (LinearLayout)findViewById(R.id.linear_layout_new_post);
+        llOrders = (LinearLayout)findViewById(R.id.llOrder);
 
         viewNewsFeed = (View)findViewById(R.id.view_news_feed);
         viewNewPost = (View)findViewById(R.id.view_new_post);
+        viewOrders = (View)findViewById(R.id.viewOrders);
 
         buttonPost = (Button)findViewById(R.id.button_post);
 
@@ -80,8 +84,12 @@ public class NewPostActivity extends Activity implements View.OnClickListener {
         llNewsFeed.setBackgroundColor(Color.parseColor("#00ffffff"));
         viewNewsFeed.setBackgroundResource(R.drawable.home_black);
 
-        llNewsFeed.setOnClickListener(this);
-        buttonPost.setOnClickListener(this);
+        llOrders.setBackgroundColor(Color.parseColor("#00ffffff"));
+        viewOrders.setBackgroundResource(R.drawable.cart_black);
+
+        viewNewsFeed.setOnClickListener(this);
+        viewOrders.setOnClickListener(this);
+       // buttonPost.setOnClickListener(this);
 
         radioButtonBuy.setOnClickListener(this);
         radioButtonSell.setOnClickListener(this);
@@ -96,11 +104,15 @@ public class NewPostActivity extends Activity implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        if(v == llNewsFeed){
+        if(v == viewNewsFeed){
             startActivity(new Intent(NewPostActivity.this, NewsFeedActivity.class));
             this.finish();
         }
-        else if( v == buttonPost){
+        if(v == viewOrders){
+            startActivity(new Intent(NewPostActivity.this, OrderListActivity.class));
+            this.finish();
+        }
+        if( v == buttonPost){
 
             final Map<String,Object> post = new HashMap<String,Object>();
             post.put(AppConstants.USER_ID,AppConstants.UserID);

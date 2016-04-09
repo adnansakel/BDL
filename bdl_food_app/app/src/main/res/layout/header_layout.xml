@@ -46,12 +46,14 @@
             android:layout_gravity="center_vertical"
             android:background="#bbbbbb"/>
         <LinearLayout
+            android:id="@+id/llOrder"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
             >
             <View
+                android:id="@+id/viewOrders"
                 android:layout_width="58dp"
                 android:layout_height="58dp"
 

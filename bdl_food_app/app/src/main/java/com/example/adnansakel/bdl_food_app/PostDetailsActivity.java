@@ -2,6 +2,7 @@ package com.example.adnansakel.bdl_food_app;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -85,11 +86,13 @@ public class PostDetailsActivity extends Activity implements View.OnClickListene
     public void onClick(View v) {
         if(v == bBuyButton)
         {
-            progress = ProgressDialog.show(this, null,
-                    null, true);
-            progress.setContentView(R.layout.progressdialogview);
-            progress.setCancelable(true);
-            order.put(AppConstants.USER_ID, newsFeedData.getPostOwner_UserID());//user id of the post owner or seller
+            startActivity(new Intent(PostDetailsActivity.this,PayPal_selection.class).putExtra(AppConstants.POST_DETAILS,newsFeedData));
+            this.finish();
+            //progress = ProgressDialog.show(this, null,
+             //       null, true);
+            //progress.setContentView(R.layout.progressdialogview);
+            //progress.setCancelable(true);
+            /*order.put(AppConstants.USER_ID, newsFeedData.getPostOwner_UserID());//user id of the post owner or seller
             new Firebase(AppConstants.FirebaseUri+"/"+AppConstants.USERS+"/"+AppConstants.FirebaseUserkey+"/"+AppConstants.ORDER_TO).push().setValue(order,
                     new Firebase.CompletionListener() {
                         @Override
@@ -129,8 +132,14 @@ public class PostDetailsActivity extends Activity implements View.OnClickListene
                                         });
                             }
                         }
-                    });
+                    });*/
         }
+    }
+
+    @Override
+    public void onBackPressed(){
+            startActivity(new Intent(PostDetailsActivity.this,NewsFeedActivity.class));
+            this.finish();
     }
 
 }

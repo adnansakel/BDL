@@ -68,6 +68,7 @@ public class SignUpActivity extends Activity implements View.OnClickListener{
                     @Override
                     public void onSuccess(Map<String, Object> result) {
                         //System.out.println("Successfully created user account with uid: " + result.get("uid"));
+                        //should add initial user profile in firebase here
                         SignUpActivity.this.finish();
                         Toast toast = Toast.makeText(context, text, duration);
                         toast.show();
